@@ -20,6 +20,7 @@ day_abbrevation='AERday'
 monthflag=1
 dayflag=0
 basedir='../download/'
+scriptdir='../dl_scripts/'
 
 search_url='https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6&experiment_id=EXPERIMENT_ID&variable=VARIABLE&variant_label=LABEL'
 
@@ -120,6 +121,8 @@ DOMAIN="${domains[0]}"
 #http://esgf-data.dkrz.de/esg-search/search/?offset=0&limit=10&type=Dataset&replica=false&latest=true&mip_era=CMIP6&variable_id=abs550aer&realm=aerosol&variant_label=r1i1p1f1&activity_id%21=input4MIPs&facets=mip_era%2Cactivity_id%2Cmodel_cohort%2Cproduct%2Csource_id%2Cinstitution_id%2Csource_type%2Cnominal_resolution%2Cexperiment_id%2Csub_experiment_id%2Cvariant_label%2Cgrid_label%2Ctable_id%2Cfrequency%2Crealm%2Cvariable_id%2Ccf_standard_name%2Cdata_node&format=application%2Fsolr%2Bjson
 # http://esgf-data.dkrz.de/esg-search/search/?offset=0&limit=10&type=Dataset&replica=false&latest=true&variable_id=abs550aer&realm=aerosol&activity_id%21=input4MIPs&variant_label=r1i1p1f1&frequency=mon&mip_era=CMIP6&facets=mip_era%2Cactivity_id%2Cmodel_cohort%2Cproduct%2Csource_id%2Cinstitution_id%2Csource_type%2Cnominal_resolution%2Cexperiment_id%2Csub_experiment_id%2Cvariant_label%2Cgrid_label%2Ctable_id%2Cfrequency%2Crealm%2Cvariable_id%2Ccf_standard_name%2Cdata_node&format=application%2Fsolr%2Bjson
 
+#download_structure=project,product,institute,model,experiment,time_frequency,realm,cmor_table,ensemble,variable
+#download_structure=,experiment,model,variant_label
 VARIANT_LABEL='r1i1p1f1'
 REALM='aerosol,atmos,atmosChem'
 FREQUENCY='mon'
@@ -127,10 +130,10 @@ for VAR in ${vars[*]}
 	do echo ${VAR}
 	for EXPERIMENT in ${experiments[*]}
 		do echo ${EXPERIMENT}
-			script_url="https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6&variable=${VAR}&experiment_id=${EXPERIMENT}&variant_label=${VARIANT_LABEL}&realm=${REALM}&frequency=${FREQUENCY}"
-			script_file="${VAR}_${EXPERIMENT}_${DOMAIN}.sh"
+			script_url="https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6&variable=${VAR}&experiment_id=${EXPERIMENT}&variant_label=${VARIANT_LABEL}&realm=${REALM}&frequency=${FREQUENCY}&download_structure=experiment_id,source_id,variant_label"
+			script_file="${scriptdir}/${VAR}_${EXPERIMENT}_${DOMAIN}.sh"
 			wget -O ${script_file} ${script_url}
-		exit
+			chmod u+x,g+x ${script_file}
 	done
 done
 
