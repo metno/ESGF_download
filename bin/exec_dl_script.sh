@@ -10,12 +10,21 @@ if [[ $# -lt 2 ]]
 	exit
 fi
 
+set -x
 script_name=`realpath ${1}`
 
 cd ${2}
 /bin/bash ${script_name}
 
-
+hostname=`hostname`
+target_group="ns9252k"
+if [[ "$hostname" =~ .*nird.* ]]
+	then #change owner to KeyClim project
+	for arg in `find ${2} -group ${USER}`
+		do echo ${arg}
+		chown :${target_group} ${arg}
+	done
+fi
 
 
 
