@@ -130,10 +130,16 @@ for VAR in ${vars[*]}
 	do echo ${VAR}
 	for EXPERIMENT in ${experiments[*]}
 		do echo ${EXPERIMENT}
-			script_url="https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6&variable=${VAR}&experiment_id=${EXPERIMENT}&variant_label=${VARIANT_LABEL}&realm=${REALM}&frequency=${FREQUENCY}&download_structure=experiment_id,source_id,variant_label"
+			script_url="https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6&variable=${VAR}&experiment_id=${EXPERIMENT}&variant_label=${VARIANT_LABEL}&realm=${REALM}&frequency=${FREQUENCY}&limit=9999&download_structure=experiment_id,source_id,variant_label"
 			script_file="${scriptdir}/${VAR}_${EXPERIMENT}_${DOMAIN}.sh"
 			wget -O ${script_file} ${script_url}
 			chmod u+x,g+x ${script_file}
 	done
 done
 
+#rlutcs_piControl_aerosol.sh:Warning! The total number of files was 2014 but this script will only process 1000.
+#rlut_piControl_aerosol.sh:Warning! The total number of files was 2536 but this script will only process 1000.
+#rsdt_piControl_aerosol.sh:Warning! The total number of files was 2539 but this script will only process 1000.
+#rsutcs_piControl_aerosol.sh:Warning! The total number of files was 2508 but this script will only process 1000.
+#rsut_piControl_aerosol.sh:Warning! The total number of files was 2539 but this script will only process 1000.
+# 
