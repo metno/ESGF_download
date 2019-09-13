@@ -20,7 +20,7 @@ hostname=`hostname`
 target_group="ns9252k"
 if [[ "$hostname" =~ .*nird.* ]]
 	then #change owner to KeyClim project
-	for arg in `find ${2} -group ${USER} -name "*.nc"`
+	for arg in `find ${2} -group ${USER} | grep -v '.status'`
 		do echo ${arg}
 		chown :${target_group} ${arg}
 	done
