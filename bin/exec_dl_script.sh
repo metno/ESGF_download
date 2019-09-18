@@ -10,8 +10,15 @@ if [[ $# -lt 2 ]]
 	exit
 fi
 
-set -x
+echo "debug: ${0} ${1} ${2}"
+
+
 script_name=`realpath ${1}`
+file_size=`stat --printf="%s" ${script_name}`
+if [ ${file_size} -lt 100 ]
+	then echo "script file size lower than 100 bytes! exiting..."
+	exit
+fi
 
 cd ${2}
 /bin/bash ${script_name}
@@ -21,7 +28,7 @@ target_group="ns9252k"
 if [[ "$hostname" =~ .*nird.* ]]
 	then #change owner to KeyClim project
 	for arg in `find ${2} -group ${USER} | grep -v '.status'`
-		do echo ${arg}
+		do #echo ${arg}
 		chown :${target_group} ${arg}
 	done
 fi
