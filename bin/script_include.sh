@@ -31,7 +31,7 @@ readarray experiments < ${experimentfile}
 VARIANT_LABEL='r1i1p1f1'
 VARIANT_LABEL='r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1'
 REALM='aerosol,atmos,atmosChem,ocean,seaIce'
-FREQUENCY='mon'
+FREQUENCY='mon,fx'
 SlotsToUse=8
 logdate=`date +%Y%m%d%H%M%S`
 UUID=`uuidgen`
