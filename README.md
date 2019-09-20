@@ -26,7 +26,7 @@ Note that these scripts will download several TB of data per day.
 - bash
 - wget
 - enough space to store your data
-- an ESGF open ID
+- an ESGF OpenID (publically available)
 
 ## Limitations
 As a standard the download scripts created by th ESGF API use certificates for authentication. These need to be renewed after a 
