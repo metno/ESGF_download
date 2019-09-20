@@ -1,15 +1,15 @@
 #!/bin/bash
 
 if [[ $# -lt 1 ]] 
-	then echo "usage: ${0} <dl directory> [<experiment> [<experiment2>]]"
+	then echo "usage: ${0} <dl directory> [-a | <experiment> [<experiment2>]]"
+	echo <dl directory> : directory where the download scripts are stored
+	echo "-a            : read experiments from the file experiments_all.txt and the vars from vars_all.txt"
+	echo "<experiment>  : list of CMIP6 experiment names"
+	echo "                if experiment is not given, the ones from the file experiments.txt is used"
+	echo
 	echo example: ${0} ../dl_scripts/ piControl
-	echo if experiment is not given, the ones from the file experiments.txt is used
 	exit
 fi
-
-
-
-
 bin_dir=`realpath ${0}`
 scriptdir=`realpath ${1}`
 shift
@@ -18,9 +18,21 @@ bin_dir=`dirname ${bin_dir}`
 . ./script_include.sh
 
 if [ $# -ge 1 ]
-	then experiments=($@)
+	then
+	if [[ ${1} == '-a' ]]
+		then 
+		experiments=(${experiments_all[*]})
+		vars=(${vars_all[*]})
+		echo "debug: running experiments from file experiments_all.txt"
+	else
+		echo "debug: experiments on the command line given"
+		experiments=($@)
+	fi
 fi
-
+echo -n "debug: running experiments "
+echo ${experiments[*]}
+echo -n "debug: running variables "
+echo ${vars[*]}
 runfile="./runfile_${logdate}_${UUID}_${HOSTNAME}.run"
 rm -f "${runfile}"
 DryRunFlag=0

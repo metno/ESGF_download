@@ -1,31 +1,20 @@
 #!/bin/bash
-
-function isyearleapyear {
-year=$1
-if [ `expr ${year} % 400` -eq  0 ]
-	then echo '1'
-elif [ `expr ${year} % 100` -eq 0 ]
-	then echo '0'
-elif [ `expr ${year} % 4` -eq 0 ]
-	then echo '1'
-else
-	echo '0'
-fi }
-
-Start='aerocom3'
-month_abbrevation='AERmon'
-day_abbrevation='AERday'
+ # common settings...
 
 monthflag=1
 dayflag=0
 #$bindir has to be defined by the calling script
 
 varfile="${bin_dir}/vars.txt"
+varfile_all="${bin_dir}/vars_all.txt"
 readarray vars < ${varfile}
+readarray vars_all < ${varfile_all}
 #echo ${vars[*]}
 
 experimentfile="${bin_dir}/experiments.txt"
+experimentfile_all="${bin_dir}/experiments_all.txt"
 readarray experiments < ${experimentfile}
+readarray experiments_all < ${experimentfile_all}
 #echo ${experiments[*]}
 
 VARIANT_LABEL='r1i1p1f1'
