@@ -25,6 +25,7 @@ Note that these scripts will download several TB of data per day.
 - Linux box
 - bash
 - wget
+- Java 9 (for handling of the certificate based downloading; see [wiki](https://github.com/metno/ESGF_download/wiki/Authentication) for details)
 - enough space to store your data
 - an ESGF OpenID (publically available)
 
