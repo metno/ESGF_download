@@ -13,11 +13,14 @@ The output of the main script is a text file with commands to run that can be us
 normal multiprocessor machine. These commands 
 include logging the output of the download scripts into a text file (one per download script; only stdout at this point)
 
-At this time the scripts are rather simple, are not very user friendly and need you to think before you type.
+At this time the scripts are rather simple, are not very user friendly and need you to think before you type. They are also rather 
+specific to be used for the KeyClim project at the Norwegian national infrastructure called NIRD. Nevertheless the scripts should 
+be simple enough for an experienced shell user to useful somewhere else as well.
 
 Note that these scripts will download several TB of data per day.
 
-## prerquests
+## Prerquests
 - Linux box
 - bash
 - wget
+- enough space to store your data
