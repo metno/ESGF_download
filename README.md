@@ -7,7 +7,7 @@ These tools query the [ESGF API](https://www.earthsystemcog.org/projects/cog/esg
 CMIP6 climate model data. This script generation is a function of the ESGF API calles wget script. This query is done 
 specific enough (one script for each
 experiment, variable combination) so that these scripts can be run in parallel to achieve a decent over all download speed. On 
-an Norwegian infrastructure we get ~20Mb/sec, that does not go down on the file level if the scripts are run in parallel.
+an Norwegian infrastructure we get ~20Mb/sec per file, that does not go down on the file level if the scripts are run in parallel.
 
 The output of the main script is a text file with commands to run that can be used to run e.g. on a cluster or using parallel on a 
 normal multiprocessor machine. These commands 
