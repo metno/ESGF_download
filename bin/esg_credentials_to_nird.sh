@@ -6,3 +6,4 @@
 # needed for authentication @ the ESGF server
 
 rsync -av ~/.esg login.nird.sigma2.no:
+rsync -av ~/.MyProxyLogon login.nird.sigma2.no:
