@@ -42,29 +42,34 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
         description='command line interface to get_dl_scripts.py\n\n\n')
-    parser.add_argument("--experiments",
-                        help="experiments to query",nargs="+")
-    parser.add_argument("-v", "--verbose", help="switch on verbosity",
-                        action='store_true')
-    parser.add_argument("--variables", help="variables to query", nargs="+")
-
     parser.add_argument("--all",
                         help="read variables and experiments from files containing all experiments and variables",
                         action='store_true')
     parser.add_argument("--allvariants", help="query all realisations, not just r1*",action='store_true')
-    parser.add_argument("--varfile", help="read variables from file", default=default_var_file)
+    parser.add_argument("--downloaddir", help="download directory of the to be downloaded files; defaults to "+dl_dir,
+                        default=dl_dir)
     parser.add_argument("--experimentfile", help="read experiments from file", default=default_experiment_file)
+    parser.add_argument("--experiments",
+                        help="experiments to query",nargs="+")
     parser.add_argument("-o", "--outfile", help="name of the runfile", default=default_run_file)
     parser.add_argument("--scriptdir",
                         help="output directory for the downloaded download scripts; defaults to {}".format(dl_script_dir),
                         default=dl_script_dir)
     parser.add_argument("--logdir", help="output directory for log files; defaults to "+logdir, default=logdir)
-    parser.add_argument("--downloaddir", help="download directory of the to be downloaded files; defaults to "+dl_dir,
-                        default=dl_dir)
     parser.add_argument("--logfile", help="logfile; defaults to "+logfile, default=logfile)
     parser.add_argument("--runfile", help="runfile; defaults to "+default_run_file, default=default_run_file)
+    parser.add_argument("-s","--silence", help="silence warning message if called without parameter",action='store_true')
+    parser.add_argument("-v", "--verbose", help="switch on verbosity",
+                        action='store_true')
+    parser.add_argument("--varfile", help="read variables from file", default=default_var_file)
+    parser.add_argument("--variables", help="variables to query", nargs="+")
 
     args = parser.parse_args()
+
+    if args.silence:
+        options['silence'] = True
+    else:
+        options['silence'] = False
 
     if args.runfile:
         options['runfile'] = args.runfile
@@ -140,6 +145,21 @@ if __name__ == '__main__':
 
     if args.experiments:
         options['experiments'] = args.experiments
+
+    if len(sys.argv) == 1:
+        pass
+        # print a varning with the defaults
+        sys.stderr.write('WARNING: you have chosen to run {} without any command line option.\n'.format(__file__))
+        sys.stderr.write('this will run with this script with the following defaults:\n')
+        sys.stderr.write('- variables are taken from file {}\n'.format(options['varfile']))
+        sys.stderr.write('- experiments are taken from file {}\n'.format(options['experimentfile']))
+        sys.stderr.write('- directory for ESGF download scripts: {}\n'.format(options['scriptdir']))
+        sys.stderr.write('- directory for data to download: {}\n'.format(options['downloaddir']))
+        sys.stderr.write('This script will now sleep for 10 seconds. Silence this message using the -s switch\n'.format())
+        import time
+        time.sleep(10)
+        sys.exit(1)
+
 
     runfilehandle = open(options['runfile'], 'w')
     logger.info('creating runfile {}'.format(options['runfile']))
