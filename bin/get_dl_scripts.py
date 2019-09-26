@@ -10,6 +10,7 @@ if __name__ == '__main__':
     import urllib.request
     from pathlib import Path
     import os
+    import sys
 
     options = {}
     uuid = uuid.uuid4()
@@ -74,27 +75,31 @@ if __name__ == '__main__':
     if args.variables:
         options['variables'] = args.variables
 
+    if args.scriptdir:
+        options['scriptdir'] = os.path.abspath(args.scriptdir)
+
+    if args.downloaddir:
+        options['downloaddir'] = os.path.abspath(args.downloaddir)
+
+    if args.logdir:
+        options['logdir'] = os.path.abspath(args.logdir)
 
     if args.logfile:
         options['logfile'] = args.logfile
         logger = logging.getLogger(__name__)
         # logging.basicConfig(filename=options['logfile'], level=logging.INFO)
-        logging.basicConfig(filename=options['logfile'])
-        default_formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s")
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(default_formatter)
-        logger.addHandler(console_handler)
-        logger.setLevel(logging.INFO)
-        # logger.debug('init')
-
-    if args.scriptdir:
-        options['scriptdir'] = args.scriptdir
-
-    if args.downloaddir:
-        options['downloaddir'] = args.downloaddir
-
-    if args.logdir:
-        options['logdir'] = args.logdir
+        try:
+            logging.basicConfig(filename=options['logfile'])
+            default_formatter = logging.Formatter("%(asctime)s:%(levelname)s:%(message)s")
+            console_handler = logging.StreamHandler()
+            console_handler.setFormatter(default_formatter)
+            logger.addHandler(console_handler)
+            logger.setLevel(logging.INFO)
+            # logger.debug('init')
+        except FileNotFoundError:
+            sys.stderr.write('Error creating log file. Does the path exist?\n')
+            sys.stderr.write('stopping here...\n')
+            sys.exit(2)
 
     if args.varfile:
         options['varfile'] = args.varfile
@@ -147,15 +152,9 @@ if __name__ == '__main__':
                               "&limit=9999"
                               "&download_structure=experiment_id,source_id,variant_label").format(
                               var,experiment,variant_label,realm,frequency)
-                script_file = "{}/{}_{}_allvariants.sh".format(options['scriptdir'], var, experiment)
-                script_log_file = "{}/{}_{}_allvariants.log".format(options['logdir'], var, experiment)
-                # /nird/home/jang/ESGF_download/bin/exec_dl_script.sh \
-                # /nird/home/u1/jang/ESGF_download/dl_scripts/rsdt_1pctCO2_r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1.sh \
-                # /nird/projects/NS9252K/CMIP6/ >> \
-                # /nird/home/jang/logs/rsdt_1pctCO2_r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1_20190923132701.log
 
-                runline = '{0} {1} {2} >> {3}'.format(exec_script, script_file, dl_dir, options['logdir'])
-                runfilehandle.write(runline+'\n')
+                script_file = "{}_{}_allvariants.sh".format(var, experiment)
+                script_log_file = "{}_{}_allvariants_{}.log".format(var, experiment, datestring)
 
             else:
                 script_url = ("https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6"
@@ -167,19 +166,16 @@ if __name__ == '__main__':
                               "&limit=9999"
                               "&download_structure=experiment_id,source_id,variant_label").format(
                               var,experiment,variant_label,realm,frequency)
-                script_file="{}/{}_{}_{}.sh".format(
-                    options['scriptdir'], var, experiment, variant_label
-                )
-                script_log_file = "{}/{}_{}_{}.log".format(options['logdir'], var, experiment, variant_label)
-                # /nird/home/jang/ESGF_download/bin/exec_dl_script.sh \
-                # /nird/home/u1/jang/ESGF_download/dl_scripts/rsdt_1pctCO2_r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1.sh \
-                # /nird/projects/NS9252K/CMIP6/ >> \
-                # /nird/home/jang/logs/rsdt_1pctCO2_r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1_20190923132701.log
+                script_file="{}_{}_{}.sh".format(var, experiment, variant_label)
+                script_log_file = "{}_{}_{}_{}.log".format( var, experiment, variant_label, datestring)
 
-                runline = '{0} {1} {2} >> {3}'.format(exec_script, script_file, dl_dir, options['logdir'])
-                runfilehandle.write(runline+'\n')
-
-            runfilehandle.close()
+            script_file = os.path.join(options['scriptdir'], script_file)
+            script_log_file = os.path.join(options['logdir'], script_log_file)
+            # /nird/home/jang/ESGF_download/bin/exec_dl_script.sh \
+            # /nird/home/u1/jang/ESGF_download/dl_scripts/rsdt_1pctCO2_r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1.sh \
+            # /nird/projects/NS9252K/CMIP6/ >> \
+            # /nird/home/jang/logs/rsdt_1pctCO2_r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1_20190923132701.log
+            runline = '{0} {1} {2} >> {3}'.format(exec_script, script_file, dl_dir, script_log_file)
 
             print(script_url)
             with urllib.request.urlopen(script_url) as web:
@@ -188,7 +184,10 @@ if __name__ == '__main__':
             write_handle = open(script_file, 'w')
             write_handle.write(script.decode('utf-8'))
             write_handle.close()
+            # write script call to runfile
+            runfilehandle.write(runline+'\n')
 
-            pass
+    runfilehandle.close()
+
 
 
