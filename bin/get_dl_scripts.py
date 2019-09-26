@@ -38,6 +38,7 @@ if __name__ == '__main__':
     exec_script = os.path.abspath(os.path.join(running_script_dir, "exec_dl_script.sh"))
 
     dl_dir='/nird/projects/NS9252K/CMIP6/'
+    dl_script_dir = '../dl_scripts/'
 
     parser = argparse.ArgumentParser(
         description='command line interface to get_dl_scripts.py\n\n\n')
@@ -47,12 +48,16 @@ if __name__ == '__main__':
                         action='store_true')
     parser.add_argument("--variables", help="variables to query", nargs="+")
 
-    parser.add_argument("--all", help="read variables and experiments from file",action='store_true')
+    parser.add_argument("--all",
+                        help="read variables and experiments from files containing all experiments and variables",
+                        action='store_true')
     parser.add_argument("--allvariants", help="query all realisations, not just r1*",action='store_true')
     parser.add_argument("--varfile", help="read variables from file", default=default_var_file)
     parser.add_argument("--experimentfile", help="read experiments from file", default=default_experiment_file)
     parser.add_argument("-o", "--outfile", help="name of the runfile", default=default_run_file)
-    parser.add_argument("--scriptdir", help="output directory for the downloaded download scripts", default='../dl_scripts/')
+    parser.add_argument("--scriptdir",
+                        help="output directory for the downloaded download scripts; defaults to {}".format(dl_script_dir),
+                        default=dl_script_dir)
     parser.add_argument("--logdir", help="output directory for log files; defaults to "+logdir, default=logdir)
     parser.add_argument("--downloaddir", help="download directory of the to be downloaded files; defaults to "+dl_dir,
                         default=dl_dir)
@@ -64,16 +69,10 @@ if __name__ == '__main__':
     if args.runfile:
         options['runfile'] = args.runfile
 
-    if args.experiments:
-        options['experiments'] = args.experiments
-
     if args.verbose:
         options['verbose'] = True
     else:
         options['verbose'] = False
-
-    if args.variables:
-        options['variables'] = args.variables
 
     if args.scriptdir:
         options['scriptdir'] = os.path.abspath(args.scriptdir)
@@ -135,6 +134,12 @@ if __name__ == '__main__':
 
     else:
         options['all'] = False
+
+    if args.variables:
+        options['variables'] = args.variables
+
+    if args.experiments:
+        options['experiments'] = args.experiments
 
     runfilehandle = open(options['runfile'], 'w')
     logger.info('creating runfile {}'.format(options['runfile']))
