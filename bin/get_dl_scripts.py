@@ -155,10 +155,10 @@ if __name__ == '__main__':
         sys.stderr.write('- experiments are taken from file {}\n'.format(options['experimentfile']))
         sys.stderr.write('- directory for ESGF download scripts: {}\n'.format(options['scriptdir']))
         sys.stderr.write('- directory for data to download: {}\n'.format(options['downloaddir']))
-        sys.stderr.write('This script will now sleep for 10 seconds. Silence this message using the -s switch\n'.format())
+        sys.stderr.write('Silence this message using the -s switch.\n')
+        sys.stderr.write('This script will now sleep for 10 seconds.\n')
         import time
         time.sleep(10)
-        sys.exit(1)
 
 
     runfilehandle = open(options['runfile'], 'w')
