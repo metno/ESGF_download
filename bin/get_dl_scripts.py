@@ -35,7 +35,7 @@ if __name__ == '__main__':
     logbasefile='{}_{}.log'.format(logbasefile[0], datestring)
     logfile = os.path.join(logdir, logbasefile)
 
-    exec_script = os.path.join(running_script_dir, "exec_dl_script.sh")
+    exec_script = os.path.abspath(os.path.join(running_script_dir, "exec_dl_script.sh"))
 
     dl_dir='/nird/projects/NS9252K/CMIP6/'
 
@@ -175,7 +175,7 @@ if __name__ == '__main__':
             # /nird/home/u1/jang/ESGF_download/dl_scripts/rsdt_1pctCO2_r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1.sh \
             # /nird/projects/NS9252K/CMIP6/ >> \
             # /nird/home/jang/logs/rsdt_1pctCO2_r1i1p1f1,r1i1p1f2,r1i1p2f1,r1i2p1f1,r1i1p1f3,r1i1p3f1_20190923132701.log
-            runline = '{0} {1} {2} >> {3}'.format(exec_script, script_file, dl_dir, script_log_file)
+            runline = '{0} {1} {2} >> {3}'.format(exec_script, script_file, options['downloaddir'], script_log_file)
 
             print(script_url)
             with urllib.request.urlopen(script_url) as web:
@@ -188,6 +188,8 @@ if __name__ == '__main__':
             runfilehandle.write(runline+'\n')
 
     runfilehandle.close()
-
+    logger.info('To run the just created scripts, you might want to run one of the following commands:')
+    logger.info('/usr/bin/parallel -v -j 8 -a {}'.format(options['runfile']))
+    logger.info('screen -S CMIP8.dl /usr/bin/parallel -v -j 8 -a {}'.format(options['runfile']))
 
 
