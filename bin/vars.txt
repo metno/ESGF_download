@@ -1,10 +1,9 @@
-sftlf
-rlut
-rlutaf
-rlutcs
-rlutcsaf
 rsdt
 rsut
-rsutaf
-rsutcs
-rsutcsaf
+rlut
+tas
+pr
+emidms
+emidust
+emiss
+emibvoc
