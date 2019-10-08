@@ -1,5 +1,7 @@
 abs550aer
 airmass
+areacella
+areacello
 depdust
 dms
 drybc
@@ -32,6 +34,7 @@ mmrsoa
 mmrss
 msflx
 msftmz
+msftyz
 od440aer
 od550aer
 od550bc
