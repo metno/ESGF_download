@@ -51,6 +51,8 @@ rlut
 rlutaf
 rlutcs
 rlutcsaf
+rsds
+rsdscs
 rsdt
 rsut
 rsutaf
