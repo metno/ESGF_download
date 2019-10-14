@@ -63,6 +63,8 @@ if __name__ == '__main__':
                         action='store_true')
     parser.add_argument("--varfile", help="read variables from file", default=default_var_file)
     parser.add_argument("--variables", help="variables to query", nargs="+")
+    parser.add_argument("--variants", help="variant labels to query; defaults to {}".format(variant_label)
+                        , default=variant_label)
 
     args = parser.parse_args()
 
@@ -73,6 +75,9 @@ if __name__ == '__main__':
 
     if args.runfile:
         options['runfile'] = args.runfile
+
+    if args.variants:
+        options['variant_label'] = args.variants
 
     if args.verbose:
         options['verbose'] = True
@@ -165,6 +170,7 @@ if __name__ == '__main__':
     logger.info('creating runfile {}'.format(options['runfile']))
     runfilehandle.close()
 
+    variant_label = options['variant_label']
     for experiment in options['experiments']:
         for var in options['variables']:
             runfilehandle = open(options['runfile'], 'a')
