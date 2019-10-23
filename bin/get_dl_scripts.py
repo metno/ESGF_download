@@ -63,6 +63,7 @@ if __name__ == '__main__':
                         action='store_true')
     parser.add_argument("--varfile", help="read variables from file", default=default_var_file)
     parser.add_argument("--variables", help="variables to query", nargs="+")
+    parser.add_argument("--models", help="models to query", nargs="+")
     parser.add_argument("--variants", help="variant labels to query; defaults to {}".format(variant_label)
                         , default=variant_label)
 
@@ -148,6 +149,10 @@ if __name__ == '__main__':
     if args.variables:
         options['variables'] = args.variables
 
+    if args.models:
+        # options['models'] = args.models
+        options['models']= ','.join(args.models)
+
     if args.experiments:
         options['experiments'] = args.experiments
 
@@ -182,10 +187,24 @@ if __name__ == '__main__':
                               "&frequency={4}"
                               "&limit=9999"
                               "&download_structure=experiment_id,source_id,variant_label").format(
-                              var,experiment,variant_label,realm,frequency)
+                    var,experiment,variant_label,realm,frequency)
 
                 script_file = "{}_{}_allvariants.sh".format(var, experiment)
                 script_log_file = "{}_{}_allvariants_{}.log".format(var, experiment, datestring)
+
+            elif 'models' in options:
+                script_url = ("https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6"
+                              "&variable={0}"
+                              "&experiment_id={1}"
+                              "&variant_label={2}"
+                              "&realm={3}"
+                              "&frequency={4}"
+                              "&source_id={5}"
+                              "&limit=9999"
+                              "&download_structure=experiment_id,source_id,variant_label").format(
+                    var,experiment,variant_label,realm,frequency, options['models'])
+                script_file="{}_{}_{}_{}.sh".format(options['models'], var, experiment, variant_label, )
+                script_log_file = "{}_{}_{}_{}_{}.log".format(options['models'], var, experiment, variant_label, datestring)
 
             else:
                 script_url = ("https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6"
@@ -196,7 +215,7 @@ if __name__ == '__main__':
                               "&frequency={4}"
                               "&limit=9999"
                               "&download_structure=experiment_id,source_id,variant_label").format(
-                              var,experiment,variant_label,realm,frequency)
+                    var,experiment,variant_label,realm,frequency)
                 script_file="{}_{}_{}.sh".format(var, experiment, variant_label)
                 script_log_file = "{}_{}_{}_{}.log".format( var, experiment, variant_label, datestring)
 
