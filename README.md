@@ -3,6 +3,11 @@ shell scripts for downloading CMIP6 climate model data from [ESGF](https://esgf-
 Norwegian Meteorological Institute in conjunction with the 
 KeyClim project.
 
+Which experiments and variables are regularly/weekly downloaded from ESGF/thredds to nird:
+see files
+bin/vars_all.text
+bin/experiments_all.txt
+
 ## Description
 These tools query the [ESGF API](https://www.earthsystemcog.org/projects/cog/esgf_search_restful_api) for bash scripts to download 
 CMIP6 climate model data. This script generation is a function of the ESGF API called wget script. This query is done 
