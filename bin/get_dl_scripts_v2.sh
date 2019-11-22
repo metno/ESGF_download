@@ -86,3 +86,5 @@ else
    echo "DRY-RUN!"
    /usr/bin/parallel --dry-run -v -j ${SlotsToUse} -a "${runfile}"
 fi
+
+#http://esgf-data.dkrz.de/esg-search/search/?offset=0&limit=9999&type=Dataset&replica=false&latest=true&variable_id=thetao&experiment_id=abrupt-4xCO2%2Chistorical%2CpiControl&variant_label=r1i1p1f1&mip_era=CMIP6&activity_id%21=input4MIPs&source_id=CESM2&grid_label=gr&facets=mip_era%2Cactivity_id%2Cmodel_cohort%2Cproduct%2Csource_id%2Cinstitution_id%2Csource_type%2Cnominal_resolution%2Cexperiment_id%2Csub_experiment_id%2Cvariant_label%2Cgrid_label%2Ctable_id%2Cfrequency%2Crealm%2Cvariable_id%2Ccf_standard_name%2Cdata_node&format=application%2Fsolr%2Bjson
