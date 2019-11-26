@@ -22,6 +22,7 @@ emiso2
 emiso4
 emiss
 emivoc
+hdfs
 hus
 loaddust
 loadso4
@@ -58,9 +59,11 @@ rlut
 rlutaf
 rlutcs
 rlutcsaf
+rlntds
 rsds
 rsdscs
 rsdt
+rsntds
 rss
 rsus      
 rsuscs
@@ -69,6 +72,7 @@ rsutaf
 rsutcs
 rsutcsaf
 rtmt
+
 sconcdust
 sconcso4
 sconcss
@@ -94,3 +98,4 @@ wetoa
 wetso2
 wetso4
 wetss
+wfo
