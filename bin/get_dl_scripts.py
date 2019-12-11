@@ -59,8 +59,8 @@ if __name__ == '__main__':
     parser.add_argument("--logfile", help="logfile; defaults to "+logfile, default=logfile)
     parser.add_argument("--runfile", help="runfile; defaults to "+default_run_file, default=default_run_file)
     parser.add_argument("-s","--silence", help="silence warning message if called without parameter",action='store_true')
-    parser.add_argument("-v", "--verbose", help="switch on verbosity",
-                        action='store_true')
+    parser.add_argument("-v", "--verbose", help="switch on verbosity", action='store_true')
+    parser.add_argument("--daily", help="download daily instead of monthly data", action='store_true')
     parser.add_argument("--varfile", help="read variables from file", default=default_var_file)
     parser.add_argument("--variables", help="variables to query", nargs="+")
     parser.add_argument("--models", help="models to query", nargs="+")
@@ -68,6 +68,12 @@ if __name__ == '__main__':
                         , default=variant_label)
 
     args = parser.parse_args()
+
+    if args.daily:
+        options['daily_data'] = True
+        frequency = 'day,fx'
+    else:
+        options['daily_data'] = False
 
     if args.silence:
         options['silence'] = True
