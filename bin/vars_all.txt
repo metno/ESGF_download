@@ -44,6 +44,7 @@ mmrso4
 mmrsoa
 mmrss
 msflx
+msftbarot
 msftmz
 msftmzmpa
 msftmzsmpa
