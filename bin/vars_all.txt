@@ -1,5 +1,6 @@
 abs550aer
 airmass
+agessc
 areacella
 areacello
 cl
@@ -36,6 +37,9 @@ loadso4
 loadss
 mfo
 mhflx
+mlotstmax
+mlotstmin
+mlotst
 mmrbc
 mmrdust
 mmrnh4
