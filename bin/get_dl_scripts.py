@@ -213,7 +213,10 @@ if __name__ == '__main__':
                 script_log_file = "{}_{}_{}_{}_{}.log".format(options['models'], var, experiment, variant_label, datestring)
 
             else:
+										#"&source_id!=FGOALS-g3,FGOALS-f3-L,CIESM,CAS-ESM2-0,E3SM-1-1-ECA,MIROC-ES2L,E3SM-1-0,MRI-ESM2-0,IITM-ESM,FIO-ESM-2-0,CanESM5,CanESM5-CanOE"
                 script_url = ("https://esgf-data.dkrz.de/esg-search/wget?mip_era=CMIP6"
+										"&latest=true"
+										"&source_id!=FGOALS-g3,FGOALS-f3-L,CIESM,CAS-ESM2-0,E3SM-1-1-ECA,MIROC-ES2L,E3SM-1-0,MRI-ESM2-0,IITM-ESM,FIO-ESM-2-0,CanESM5,CanESM5-CanOE,IPSL-CM6A-LR,HadGEM3-GC31-LL,UKESM1-0-LL,CAMS-CSM1-0,GISS-E2-1-G,NESM3,GISS-E2-1-G-CC,GISS-E2-1-H,CESM2-WACCM"
                               "&variable={0}"
                               "&experiment_id={1}"
                               "&variant_label={2}"
