@@ -21,7 +21,8 @@ if [ ${file_size} -lt 100 ]
 fi
 
 cd ${2}
-/bin/bash ${script_name}
+#/bin/bash ${script_name} -U < ~/.OpenID
+/bin/bash ${script_name} -H -i -U < ~/.OpenID
 
 hostname=`hostname`
 target_group="ns9252k"
