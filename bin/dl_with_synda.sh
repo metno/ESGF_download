@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# script to download data from ESGF based on either a synda search
+# or a text file with redirected synda search output
+# only monthly data is downloaded
+# This script differs from synda in the sense that it starts a synda install
+# command for every dataset in retries up to 5 times the synda install
+# in case that fails
+
 if [[ $# -lt 2 ]] 
 	then echo "usage: ${0} <synda search tokens>"
 	echo "or ${0} -f <filename with synda search output>"
@@ -13,7 +20,7 @@ else
 	tmp_file="tmp.txt"
 	esgf_search=$@
 	echo "starting synda search..."
-	synda search ${esgf_search[@]}  | grep mon\. > ${tmp_file}
+	synda search ${esgf_search[@]}  | grep 'mon\.\|fx\.' > ${tmp_file}
 	echo "synda search done..."
 fi
 
